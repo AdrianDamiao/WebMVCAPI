@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Models;
 
-namespace WebAPI.Models
+namespace WebAPI.Data
 {
     public class WebAPIContext : DbContext
     {
@@ -14,11 +14,6 @@ namespace WebAPI.Models
         {
         }
 
-        public DbSet<Department> Department { get; set; }
-
-        public DbSet<Seller> Seller { get; set; }
-
-        public DbSet<SalesRecord> SalesRecord { get; set; }
-
+        public DbSet<WebAPI.Models.Department> Department { get; set; }
     }
 }
