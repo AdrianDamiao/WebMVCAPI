@@ -8,9 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
+using WebAPI.Models;
 
 namespace WebAPI
 {
@@ -37,15 +38,20 @@ namespace WebAPI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<WebAPIContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("WebAPIContext")));
+                    options.UseMySql(Configuration.GetConnectionString("WebAPIContext"), builder =>
+                    builder.MigrationsAssembly("WebAPI")));
+
+            services.AddScoped<SeedingService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();
             }
             else
             {
